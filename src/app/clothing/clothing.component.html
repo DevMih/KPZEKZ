@@ -1,0 +1,64 @@
+<button type="button" class="btn btn-primary float-end m-2" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="addClothing()"
+data-backdrop="static" data-keyboard="false">
+    + Add clothing
+</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">{{ModalTitle}}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                (click)="closeClick()"></button>
+            </div>
+            <div class="modal-body">
+                <app-add-edit-clothing [clothing]="clothing" *ngIf="ActivateAddEditClothingComp"></app-add-edit-clothing>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Production Date</th>
+            <th>Size</th>
+            <th>Model</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Discount</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let dataItem of ClothingList">
+            <td>{{dataItem.id}}</td>
+            <td>{{dataItem.name}}</td>
+            <td>{{dataItem.brand}}</td>
+            <td>{{dataItem.productionDate.split("T")[0]}}</td>
+            <td>
+                <select [(ngModel)]="dataItem.size" class="form-control" disabled>
+                    <option value="0">XS</option>
+                    <option value="1">S</option>
+                    <option value="2">M</option>
+                    <option value="3">L</option>
+                    <option value="4">XL</option>
+                </select>
+                </td>
+            <td>{{dataItem.model}}</td>
+            <td>{{dataItem.quantity}}</td>
+            <td>{{dataItem.price}}</td>
+            <td>{{dataItem.discount}}%</td>
+            <td>
+                <button class="btn btn-outline-primary m-1" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editClothing(dataItem)"
+                data-backdrop="static" data-keyboard="false">Edit</button>
+                <button class="btn btn-outline-danger m-1" (click)="deleteClothing(dataItem)">Delete</button>
+                <button class="btn btn-success m-1" (click)="sellClothing(dataItem)" [disabled]="!(dataItem.quantity > 0)">Sell</button>
+                <button class="btn btn-danger m-1" (click)="refillClothing(dataItem)">Refill</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
